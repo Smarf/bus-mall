@@ -38,7 +38,7 @@ Merch.randomMerch = function() {
   var randomNum = Math.random() * Merch.catalogDisplay.length;
   var wholeRandomNumber = Math.floor(randomNum);
   var singleRandomMerchObject = Merch.catalogDisplay[wholeRandomNumber];
-  
+
   // set the src attribute of the img element
   Merch.imgElement.src = singleRandomMerchObject.filepath;
 };
