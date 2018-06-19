@@ -1,42 +1,48 @@
 'use strict';
 
-// an array to hold our goats
-Goat.myGoats = [];
+//an array that holds the images to be dislayed on screen from the catalog
+
+Merch.catalogDisplay = [];
 
 // access the element by id
-Goat.imgElement = document.getElementById('goat-pic');
-// var imgElement = document.getElementById('goat-pic');
+Merch.imgElement = document.getElementById('merch-pic');
 
-// constructor to make goat instances
-function Goat(filepath) {
+// constructor to make merchandise instances
+function Merch(filepath) {
   this.filepath = filepath;
-  Goat.myGoats.push(this);
+  Merch.catalogDisplay.push(this);
 }
 
 // make goat instances
-new Goat('img/cruisin-goat.jpg');
-new Goat('img/kissing-goat.jpg');
-new Goat('img/sassy-goat.jpg');
-new Goat('img/smiling-goat.jpg');
-new Goat('img/sweater-goat.jpg');
+new Merch('img/1.jpg');
+new Merch('img/2.jpg');
+new Merch('img/3.jpg');
+new Merch('img/4.jpg');
+new Merch('img/5.jpg');
+new Merch('img/6.jpg');
+new Merch('img/7.jpg');
+new Merch('img/8.jpg');
+new Merch('img/9.jpg');
+new Merch('img/10.jpg');
 
 
 // attach event listener
 
 // define a callback to run when the event occurs, also the function that runs on page load
+
 // random whole number generator, between 0 and the length of the array
+
 // so that we can randomly pick one from the array and display that goat image
-Goat.randomGoat = function() {
-  var randomNum = Math.random() * Goat.myGoats.length;
-  var roundedDown = Math.floor(randomNum);
-  var oneGoat = Goat.myGoats[roundedDown];
-  // set the src attribute of the img element
-  Goat.imgElement.src = oneGoat.filepath;
+
+Merch.randomMerch = function() {
+  var randomNum = Math.random() * Merch.catalogDisplay.length;
+  var wholeRandomNumber = Math.floor(randomNum);
+  var singleRandomMerchObject = Merch.catalogDisplay[wholeRandomNumber];
   
-  // ugly one-liner that does the same thing but might make your eyes bleed
-  // Goat.imgElement.src = Goat.myGoats[Math.floor(Math.random() * Goat.myGoats.length)].filepath;
+  // set the src attribute of the img element
+  Merch.imgElement.src = singleRandomMerchObject.filepath;
 };
 
-Goat.imgElement.addEventListener('click', Goat.randomGoat);
+Merch.imgElement.addEventListener('click', Merch.randomMerch);
 
-Goat.randomGoat();
+Merch.randomMerch();
