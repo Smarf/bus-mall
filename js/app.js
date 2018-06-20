@@ -151,3 +151,34 @@ Merch.randomMerch();
 Merch.firstEl.addEventListener('click', Merch.randomMerch);
 Merch.secondEl.addEventListener('click', Merch.randomMerch);
 Merch.thirdEl.addEventListener('click', Merch.randomMerch);
+
+// method to render the chart on the screen
+Merch.renderChart = function() {
+  var context = document.getElementById('myChart').getContext('2d');
+
+  var chartColors = ['#bb070e', '#ffe63a', '#0099f7', '#fff'];
+
+  var merchChart = new Chart(context, { // eslint-disable-line
+    type: 'bar',
+    data : {
+      labels: Merch.catalog,
+      datasets: [{
+        label: 'Clicks Per Item',
+        data: Merch.totalVotes,
+        backgroundColors: chartColors,
+        // backgroundColors: ['red','green','blue', '#fff'],
+      }],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          tick: {
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  });
+};
+
+Merch.renderChart();
