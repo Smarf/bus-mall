@@ -21,7 +21,7 @@ Merch.previouslyViewed = [];
 
 Merch.imgElement = document.getElementById('merch-pic');
 Merch.ulEl = document.getElementById('threePic');
-Merch.section = document.getElementById('merch-display');
+Merch.sectionEl = document.getElementById('merch-display');
 Merch.firstEl = document.getElementById('selectionOne');
 Merch.secondEl = document.getElementById('selectionTwo');
 Merch.thirdEl = document.getElementById('selectionThree');
@@ -64,6 +64,7 @@ new Merch('Wine Glass', 'img/wine-glass.jpg');
 // random display a single pic from the merchObjects
 
 Merch.randomMerch = function() {
+  console.log('clicked');
   // random whole number generator, between 0 and the length of the array
   do {
     var randomFirst = Math.floor(Math.random() * Merch.merchObjects.length);
@@ -89,15 +90,64 @@ Merch.randomMerch = function() {
   var singleRandomMerchObject = Merch.merchObjects[wholeRandomNumber];
   */
 
-  // set the src attribute of the img element
+  // set the src and alt attributes of the img element
   Merch.firstEl.src = Merch.merchObjects[randomFirst].filepath;
+  Merch.firstEl.alt = Merch.merchObjects[randomFirst].name;
   Merch.secondEl.src = Merch.merchObjects[randomSecond].filepath;
+  Merch.secondEl.alt = Merch.merchObjects[randomSecond].name;
   Merch.thirdEl.src = Merch.merchObjects[randomThird].filepath;
+  Merch.thirdEl.alt = Merch.merchObjects[randomThird].name;
+
+  Merch.previouslyViewed[0] = randomFirst;
+  Merch.previouslyViewed[1] = randomSecond;
+  Merch.previouslyViewed[2] = randomThird;
+
+  Merch.merchObjects[randomFirst].previouslyViewed++;
+  Merch.merchObjects[randomSecond].previouslyViewed++;
+  Merch.merchObjects[randomThird].previouslyViewed++;
 
 };
 
+Merch.showList = function() {
+  for(var i = 0; i < Merch.merchObjects.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = `${Merch.merchObjects[i].name}
+  has ${Merch.merchObjects[i].previouslyViewed} time.`;
+    Merch.ulEl.appendChild(liEl);
+  }
+};
+
+// Add up the votes
+Merch.updateVotes = function() {
+  for(var i = 0; i < Merch.merchObjects.length; i++) {
+    Merch.totalVotes[i] = Merch.merchObjects[i].votes;
+    Merch.catalog[i] = Merch.merchObjects[i].name;
+  }
+};
+
+Merch.clicker = function(event) {
+  Merch.totalVotes++;
+
+  for(var i = 0; i < Merch.merchObjects.length;i++) {
+    if(event.target.alt === Merch.merchObjects[i].name) {
+      Merch.merchObjects[i].votes++;
+    }
+  }
+
+  if(Merch.totalVotes > 20) {
+    Merch.sectionEl.removeEventListener('click',Merch.clicker);
+    //display results
+    Merch.showList();
+    Merch.updateVotes();
+  } else {
+    Merch.randomMerch();
+  }
+};
+
+Merch.sectionEl.addEventListener('click', Merch.clicker);
+
 Merch.randomMerch();
 
-Merch.firstEl.addEventListener('click', Merch.randomMerch());
-Merch.secondEl.addEventListener('click', Merch.randomMerch());
-Merch.thirdEl.addEventListener('click', Merch.randomMerch());
+Merch.firstEl.addEventListener('click', Merch.randomMerch);
+Merch.secondEl.addEventListener('click', Merch.randomMerch);
+Merch.thirdEl.addEventListener('click', Merch.randomMerch);
