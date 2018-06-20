@@ -29,7 +29,7 @@ Merch.thirdEl = document.getElementById('selectionThree');
 
 
 // constructor to make merchandise instances
-function Merch(filepath) {
+function Merch(name, filepath) {
   this.name = name;
   this.filepath = filepath;
   this.votes = 0;
@@ -75,10 +75,12 @@ Merch.randomMerch = function() {
     console.log('second', randomSecond);
     console.log('third', randomThird);
 
-  } while (randomFirst === randomSecond
+  } while (randomFirst === randomSecond || randomFirst === randomThird || randomSecond === randomThird
   || Merch.previouslyViewed.includes(randomFirst)
   || Merch.previouslyViewed.includes(randomSecond)
   || Merch.previouslyViewed.includes(randomThird));
+
+  console.log(Merch.merchObjects[randomFirst].filepath);
 
   /* previous random number generator, might no longer need
 
@@ -88,10 +90,14 @@ Merch.randomMerch = function() {
   */
 
   // set the src attribute of the img element
-  Merch.imgElement.src = Merch.filepath;
+  Merch.firstEl.src = Merch.merchObjects[randomFirst].filepath;
+  Merch.secondEl.src = Merch.merchObjects[randomSecond].filepath;
+  Merch.thirdEl.src = Merch.merchObjects[randomThird].filepath;
 
 };
 
-Merch.imgElement.addEventListener('click', Merch.randomMerch);
-
 Merch.randomMerch();
+
+Merch.firstEl.addEventListener('click', Merch.randomMerch());
+Merch.secondEl.addEventListener('click', Merch.randomMerch());
+Merch.thirdEl.addEventListener('click', Merch.randomMerch());
