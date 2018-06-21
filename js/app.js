@@ -28,6 +28,10 @@ Merch.secondEl = document.getElementById('selectionTwo');
 Merch.thirdEl = document.getElementById('selectionThree');
 
 
+// check local storage for userResults
+
+Merch.parsedMerch = JSON.parse(localStorage.getItem('userResults'));
+
 
 // constructor to make merchandise instances
 function Merch(name, filepath) {
@@ -154,6 +158,9 @@ Merch.clicker = function(event) {
 Merch.sectionEl.addEventListener('click', Merch.clicker);
 
 Merch.randomMerch();
+
+// store results in local storage
+localStorage.userResults = JSON.stringify(Merch.merchObjects);
 
 // method to render the chart on the screen
 Merch.renderChart = function() {
