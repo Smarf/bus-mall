@@ -3,10 +3,11 @@
 //an array that holds the images to be dislayed on screen from the merchObjects
 Merch.merchObjects = [];
 
-// a variable that keeps track of the clicks
-Merch.clickTracker = 0;
-
 // an array to store all the names of each individual item
+
+//it's job is to count to 25
+
+Merch.clickTracker = 0;
 
 Merch.catalog = [];
 
@@ -20,7 +21,7 @@ Merch.previouslyViewed = [];
 // access to the element, section and unordered list all by ID from the DOM
 
 Merch.imgElement = document.getElementById('merch-pic');
-Merch.ulEl = document.getElementById('threePic');
+Merch.ulEl = document.getElementById('voteCounts');
 Merch.sectionEl = document.getElementById('merch-display');
 Merch.firstEl = document.getElementById('selectionOne');
 Merch.secondEl = document.getElementById('selectionTwo');
@@ -64,24 +65,24 @@ new Merch('Wine Glass', 'img/wine-glass.jpg');
 // random display a single pic from the merchObjects
 
 Merch.randomMerch = function() {
-  console.log('clicked');
+  console.log('randomMerch is running');
   // random whole number generator, between 0 and the length of the array
   do {
     var randomFirst = Math.floor(Math.random() * Merch.merchObjects.length);
     var randomSecond = Math.floor(Math.random() * Merch.merchObjects.length);
     var randomThird = Math.floor(Math.random() * Merch.merchObjects.length);
 
-    console.log('duplicate detected, will display once, problem if displayed more than once');
-    console.log('first', randomFirst);
-    console.log('second', randomSecond);
-    console.log('third', randomThird);
+    // console.log('duplicate detected, will display once, problem if displayed more than once');
+    // console.log('first', randomFirst);
+    // console.log('second', randomSecond);
+    // console.log('third', randomThird);
 
   } while (randomFirst === randomSecond || randomFirst === randomThird || randomSecond === randomThird
   || Merch.previouslyViewed.includes(randomFirst)
   || Merch.previouslyViewed.includes(randomSecond)
   || Merch.previouslyViewed.includes(randomThird));
 
-  console.log(Merch.merchObjects[randomFirst].filepath);
+  // console.log(Merch.merchObjects[randomFirst].filepath);
 
   /* previous random number generator, might no longer need
 
@@ -102,17 +103,20 @@ Merch.randomMerch = function() {
   Merch.previouslyViewed[1] = randomSecond;
   Merch.previouslyViewed[2] = randomThird;
 
-  Merch.merchObjects[randomFirst].previouslyViewed++;
-  Merch.merchObjects[randomSecond].previouslyViewed++;
-  Merch.merchObjects[randomThird].previouslyViewed++;
+  Merch.merchObjects[randomFirst].votes++;
+  Merch.merchObjects[randomSecond].votes++;
+  Merch.merchObjects[randomThird].votes++;
+  Merch.merchObjects[randomFirst].timesShown++;
+  Merch.merchObjects[randomSecond].timesShown++;
+  Merch.merchObjects[randomThird].timesShown++;
 
 };
 
 Merch.showList = function() {
   for(var i = 0; i < Merch.merchObjects.length; i++) {
     var liEl = document.createElement('li');
-    liEl.textContent = `${Merch.merchObjects[i].name}
-  has ${Merch.merchObjects[i].previouslyViewed} time.`;
+    console.log(Merch.merchObjects[i]);
+    liEl.textContent = `${Merch.merchObjects[i].name} has recieved ${Merch.merchObjects[i].votes} votes.`;
     Merch.ulEl.appendChild(liEl);
   }
 };
@@ -123,23 +127,26 @@ Merch.updateVotes = function() {
     Merch.totalVotes[i] = Merch.merchObjects[i].votes;
     Merch.catalog[i] = Merch.merchObjects[i].name;
   }
+  console.log(Merch.totalVotes);
 };
 
 Merch.clicker = function(event) {
-  Merch.totalVotes++;
+  console.log('clicked');
+  Merch.clickTracker +=1;
 
-  for(var i = 0; i < Merch.merchObjects.length;i++) {
-    if(event.target.alt === Merch.merchObjects[i].name) {
-      Merch.merchObjects[i].votes++;
-    }
-  }
 
-  if(Merch.totalVotes > 20) {
-    Merch.sectionEl.removeEventListener('click',Merch.clicker);
+  if(Merch.clickTracker > 24) {
+    Merch.sectionEl.removeEventListener('click', Merch.clicker);
     //display results
-    Merch.showList();
     Merch.updateVotes();
+    Merch.showList();
   } else {
+    console.log('event.target.alt',event.target.alt);
+    for(var i = 0; i < Merch.merchObjects.length; i++) {
+      if (event.target.alt === Merch.merchObjects[i].name) {
+        Merch.merchObjects.votes +=1;
+      }
+    }
     Merch.randomMerch();
   }
 };
@@ -147,10 +154,6 @@ Merch.clicker = function(event) {
 Merch.sectionEl.addEventListener('click', Merch.clicker);
 
 Merch.randomMerch();
-
-Merch.firstEl.addEventListener('click', Merch.randomMerch);
-Merch.secondEl.addEventListener('click', Merch.randomMerch);
-Merch.thirdEl.addEventListener('click', Merch.randomMerch);
 
 // method to render the chart on the screen
 Merch.renderChart = function() {

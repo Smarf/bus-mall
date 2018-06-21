@@ -1,6 +1,6 @@
 body {
   font-family: helvetica;
-  background-image: url("c:/Users/bjust/codefellows/201/bus-mall/img/background.jpg");
+  background-image: url("../img/background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -41,13 +41,13 @@ main {
   width: 960px;
   margin: 20px auto;
 }
-main li {
+#threePic li {
   display: inline-block;
-  float: left;
+  /* float: left; */
   margin-right: 30px;
 }
 
-main li:last-child {
+#threePic li:last-child {
   margin-right: 0;
 }
 
@@ -79,4 +79,8 @@ footer {
   height: 200px;
   background: #888;
   clear: both;
+}
+
+#voteCounts {
+  background: white;
 }
