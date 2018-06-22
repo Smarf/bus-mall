@@ -82,9 +82,9 @@ Merch.randomMerch = function() {
     // console.log('third', randomThird);
 
   } while (randomFirst === randomSecond || randomFirst === randomThird || randomSecond === randomThird
-  || Merch.previouslyViewed.includes(randomFirst)
-  || Merch.previouslyViewed.includes(randomSecond)
-  || Merch.previouslyViewed.includes(randomThird));
+      || Merch.previouslyViewed.includes(randomFirst)
+      || Merch.previouslyViewed.includes(randomSecond)
+      || Merch.previouslyViewed.includes(randomThird));
 
   // console.log(Merch.merchObjects[randomFirst].filepath);
 
@@ -107,12 +107,11 @@ Merch.randomMerch = function() {
   Merch.previouslyViewed[1] = randomSecond;
   Merch.previouslyViewed[2] = randomThird;
 
-  Merch.merchObjects[randomFirst].votes++;
-  Merch.merchObjects[randomSecond].votes++;
-  Merch.merchObjects[randomThird].votes++;
   Merch.merchObjects[randomFirst].timesShown++;
   Merch.merchObjects[randomSecond].timesShown++;
   Merch.merchObjects[randomThird].timesShown++;
+
+  console.log('random third times shown',Merch.merchObjects[randomThird].timesShown);
 
 };
 
@@ -148,7 +147,7 @@ Merch.clicker = function(event) {
     console.log('event.target.alt',event.target.alt);
     for(var i = 0; i < Merch.merchObjects.length; i++) {
       if (event.target.alt === Merch.merchObjects[i].name) {
-        Merch.merchObjects.votes +=1;
+        Merch.merchObjects[i].votes +=1;
       }
     }
     Merch.randomMerch();
@@ -158,6 +157,17 @@ Merch.clicker = function(event) {
 Merch.sectionEl.addEventListener('click', Merch.clicker);
 
 Merch.randomMerch();
+
+/* under construction
+Merch.pageLoadCheckLocalStorage = function() {
+  // checks to see if there is locally stored data
+  if(localStorage.getItem('allProductObjects')) {
+    //load local storage
+    // Merch.loadLocalStorage
+  }
+} */
+
+
 
 // store results in local storage
 localStorage.userResults = JSON.stringify(Merch.merchObjects);
